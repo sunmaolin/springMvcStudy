@@ -12,6 +12,8 @@
     <param-value>WEB-INF/applicationContext.xml</param-value>
   </context-param>
   <!--配置ContextLoaderListener用以初始化spring Ioc容器-->
+  <!--在dispatcherServlet初始化之前完成SpringIoc容器的创建，也可以在web结束时完成对SpringIoc
+  容器的销毁-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

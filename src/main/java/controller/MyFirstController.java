@@ -1,8 +1,15 @@
 package controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 //表明当请求的URL在/my下的时候才有该控制器响应
@@ -18,4 +25,23 @@ public class MyFirstController {
         //返回视图模型
         return modelAndView;
     }
+
+    @RequestMapping("param")
+    public void getParam1(HttpSession session, HttpServletRequest request){
+        //Spring MVC会自动解析代码中的方法参数 session,request
+        //存在一个问题就是与Servlet关联性太强，不利于扩展
+    }
+
+    @RequestMapping(value = "param1",method = RequestMethod.GET)
+    public void getParam2(@RequestParam("id") long id, @SessionAttribute("username")String userName){
+        //也可以用过注解RequestParam获取链接上的参数
+        //注意此时该参数默认是必须有的，可通过required设置是否必须以及defaultValue设置默认值
+        System.out.println(id);
+
+        //也可以通过注解SessionAttribute获取session数据
+    }
+
+
+
+
 }
