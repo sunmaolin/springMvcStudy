@@ -2,14 +2,13 @@ package controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pojo.Role;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 //表明当请求的URL在/my下的时候才有该控制器响应
@@ -33,12 +32,25 @@ public class MyFirstController {
     }
 
     @RequestMapping(value = "param1",method = RequestMethod.GET)
-    public void getParam2(@RequestParam("id") long id, @SessionAttribute("username")String userName){
+    public void getParam1(@RequestParam("id") long id, @SessionAttribute("username")String userName){
         //也可以用过注解RequestParam获取链接上的参数
         //注意此时该参数默认是必须有的，可通过required设置是否必须以及defaultValue设置默认值
         System.out.println(id);
 
         //也可以通过注解SessionAttribute获取session数据
+    }
+
+    @RequestMapping("param2")
+    public void getParam2(String userName, Role role){
+        //参数简单，可以直接获取（名称一致）
+        System.out.println(userName);
+        //也可以通过pojo封装获取
+        System.out.println(role.toString());
+    }
+
+    @RequestMapping("param3")
+    public void getParam3(@RequestBody List<String> roleList){
+        //通过注解RequestBody接收json格式字符串，自动解析
     }
 
 
