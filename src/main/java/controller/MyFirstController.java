@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pojo.Role;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +52,39 @@ public class MyFirstController {
     @RequestMapping("param3")
     public void getParam3(@RequestBody List<String> roleList){
         //通过注解RequestBody接收json格式字符串，自动解析
+    }
+
+    @RequestMapping("testRedirect")
+    public String testRedirect(Model model,String userName,String passWord){
+        //Model为重定向数据模型，SpringMvc会自动初始化它
+
+        //绑定重定向数据模型
+        model.addAttribute("userName",userName);
+        model.addAttribute("passWord",passWord);
+
+        return "redirect:./param2.do";
+    }
+
+    @RequestMapping("testRedirect2")
+    public ModelAndView testRedirect(ModelAndView mv,String userName,String passWord){
+        //ModelAndView对象，SpringMvc会自动初始化它
+
+        //绑定重定向数据模型
+        mv.addObject("userName",userName);
+        mv.addObject("passWord",passWord);
+        mv.setViewName("redirect:./param2.do");
+        return mv;
+    }
+
+    @RequestMapping("testRedirect3")
+    public String testRedirect(RedirectAttributes ra, String userName, String passWord){
+        //RedirectAttributes，SpringMvc会自动初始化它
+        //为什么使用，因为上面的俩种重定向方式不能传递pojo参数，只能传递简单的参数
+
+        //绑定重定向数据模型
+        Role role = new Role();
+        ra.addAttribute("role",role);
+        return "redirect:./param2.do";
     }
 
 
