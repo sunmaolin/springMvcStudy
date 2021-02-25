@@ -14,17 +14,17 @@
     <!--该配置文件为SpringMvc相关的配置文件-->
 
     <!--使用注解驱动,不用也可以好像-->
-<!--    <mvc:annotation-driven/>-->
+    <mvc:annotation-driven/>
 
     <!--定义扫描装载的包-->
-    <context:component-scan base-package="controller"/>
+    <context:component-scan base-package="controller,mapper,service"/>
     <!--定义视图解析器-->
     <!--找到web工程/WEB-INF/jsp文件夹，且文件结尾为jsp的文件作为映射-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
     <!--若配置数据库，需要开启事务注解-->
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
 </beans>

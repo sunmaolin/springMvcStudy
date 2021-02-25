@@ -1,0 +1,14 @@
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace：对应哪个接口 -->
+<mapper namespace="mapper.RoleMapper">
+
+    <resultMap id="roleMap" type="pojo.Role">
+        <result property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="note" column="note"/>
+    </resultMap>
+
+    <select id="getRole" resultMap="roleMap" parameterType="int">
+        select role_id,role_name,note from role where role_id = #{roleId}
+    </select>
+</mapper>

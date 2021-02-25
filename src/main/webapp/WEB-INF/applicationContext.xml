@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--该配置文件为配置第三方jar包的位置,如下面配置mybatis-->
+    <!--使用注解驱动-->
+<!--    <context:annotation-config/>-->
+
+    <!--三方数据库连接池-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatisStudy?serverTimezone=Asia/Shanghai"/>
+        <property name="username" value="root"/>
+        <property name="password" value="000"/>
+        <!--最大数据库连接数-->
+        <property name="maxActive" value="255"/>
+        <!--最大等待连接中的数量-->
+        <property name="maxIdle" value="5"/>
+        <!--最大等待毫秒数-->
+        <property name="maxWait" value="10000"/>
+    </bean>
+
+    <!--spring-mybatis是mybatis向spring靠齐的解决方案-->
+    <!--提供了SqlSessionFactoryBean，因为在mybatis中SqlSessionFactory是产生SqlSession的关键-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+<!--        <property name="configLocation" value=""/>-->
+    </bean>
+
+    <!--我们知道jdbcTemplate源码是不支持事务管理的，而能够支持事务管理的是TransactionTemplate模板-->
+    <!--配置数据源事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--多个包扫描可用逗号分开-->
+        <property name="basePackage" value="mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--只扫描注解了该注解的接口-->
+        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+    </bean>
 
 
 </beans>
