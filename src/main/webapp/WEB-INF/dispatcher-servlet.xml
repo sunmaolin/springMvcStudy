@@ -14,7 +14,7 @@
     <!--该配置文件为SpringMvc相关的配置文件-->
 
     <!--使用注解驱动,不用也可以好像-->
-    <mvc:annotation-driven/>
+<!--    <mvc:annotation-driven/>-->
 
     <!--定义扫描装载的包-->
     <context:component-scan base-package="controller,mapper,service"/>
@@ -25,6 +25,14 @@
 
     <!--若配置数据库，需要开启事务注解-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/role/*.do"/>
+            <bean class="interceptor.RoleInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
 </beans>
